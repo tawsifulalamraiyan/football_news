@@ -15,7 +15,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div
         className={cn(
-          "relative flex items-center border border-input rounded-md bg-transparent h-9 px-3 py-1 shadow-xs transition-colors",
+          "relative flex items-center border border-input rounded-md bg-transparent h-9 px-3 py-5 shadow-xs transition-colors",
           "focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50",
           "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
           "disabled:opacity-50 disabled:cursor-not-allowed",

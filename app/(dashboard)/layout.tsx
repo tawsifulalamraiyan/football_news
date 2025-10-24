@@ -1,3 +1,4 @@
+import Navber from "@/components/Navber";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -12,7 +13,10 @@ const layout = async ({ children }: any) => {
   }
   return (
     <>
-      <main>{children}</main>
+      <main className=" flex max-sm:flex-col">
+        <Navber />
+        <main>{children}</main>
+      </main>
     </>
   );
 };

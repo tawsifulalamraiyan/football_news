@@ -34,10 +34,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className=" px-[200px] max-sm:px-10 py-[30px] max-sm:py-4">
-            {" "}
-            {children}
-          </main>
+          <main> {children}</main>
         </ThemeProvider>
       </body>
     </html>
