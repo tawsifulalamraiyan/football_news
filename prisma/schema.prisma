@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../lib/generated/prisma"
@@ -20,6 +14,7 @@ model User {
   email         String
   emailVerified Boolean   @default(false)
   image         String?
+  rule  String  @default("user")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
@@ -27,6 +22,7 @@ model User {
 
   @@unique([email])
   @@map("user")
+  news news[]
 }
 
 model Session {
@@ -80,18 +76,23 @@ model playerdata{
   userId String
   name String 
   imagepath String
+  totalgoals Int
+  totalassists Int
   currentclub String
   age Int
   country String
   createdAt DateTime @default(now())
 }
 
-model news{
-  id Int @id @default(autoincrement())
-  title String
-  writer String
-  imagepath String
-  content String
-  createdAt DateTime @default(now())
+model news {
+  id         Int      @id @default(autoincrement())
+  title      String
+  writer     String
+  imagepath  String
+  content    String
+  createdAt  DateTime @default(now())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 

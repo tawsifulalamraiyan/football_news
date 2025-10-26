@@ -1,9 +1,9 @@
-import Navber from "@/components/Navber";
+import Navbar from "@/components/Navber";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-const layout = async ({ children }: any) => {
+const Layout = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -11,14 +11,18 @@ const layout = async ({ children }: any) => {
   if (!session) {
     redirect("/signin");
   }
+
   return (
-    <>
-      <main className=" flex max-sm:flex-col">
-        <Navber />
-        <main>{children}</main>
-      </main>
-    </>
+    <div className="flex min-h-screen max-sm:flex-col">
+      {/* Sidebar / Navbar */}
+      <div className="sticky top-0 z-40 h-screen max-sm:h-auto max-sm:w-full">
+        <Navbar />
+      </div>
+
+      {/* Main content */}
+      <div className="flex-1 overflow-auto max-sm:mt-0">{children}</div>
+    </div>
   );
 };
 
-export default layout;
+export default Layout;

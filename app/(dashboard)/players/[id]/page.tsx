@@ -1,5 +1,4 @@
-import { playerData } from "@/data/index";
-import Link from "next/link";
+import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 
 export default async function PlayerDetailPage({
@@ -7,61 +6,74 @@ export default async function PlayerDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params; // ✅ unwrap the Promise
+  // Extract player id from the params
+  const { id } = await params;
 
-  const player = playerData.find((p) => p.id === Number(id));
+  // Convert the id to an integer
+  const idInt = parseInt(id, 10);
 
-  if (!player) {
-    return (
-      <main className="p-6 text-center">
-        <h2 className="text-2xl font-bold mb-4">Player Not Found</h2>
-        <Link href="/players" className="text-blue-400 hover:underline">
-          ← Back to Players
-        </Link>
-      </main>
-    );
+  // Check if id is a valid number
+  if (isNaN(idInt)) {
+    return <p>Invalid ID format.</p>;
+  }
+
+  // Fetch player data from the database using Prisma
+  const data = await prisma.playerdata.findUnique({
+    where: { id: idInt },
+  });
+
+  // Check if the player exists
+  if (!data) {
+    return <p>Player not found.</p>;
   }
 
   return (
     <main className="p-6 max-w-3xl mx-auto">
-      <Link href="/players" className="text-blue-400 hover:underline">
-        ← Back to Players
-      </Link>
-
-      <div className="mt-6 border border-neutral-800 rounded-lg p-6 bg-neutral-900 shadow-md flex flex-col sm:flex-row gap-6 items-center">
-        <div>
+      <div className="text-white rounded-lg shadow-lg p-6 space-y-6">
+        {/* Image Section */}
+        <div className="relative">
           <Image
-            src={player.image}
-            alt={player.name}
+            src={data.imagepath}
+            alt={data.name}
             width={200}
             height={200}
-            className="rounded-xl object-cover border border-neutral-700"
+            className="object-cover rounded-lg shadow-md"
           />
         </div>
 
-        {/* Player Details */}
-        <div className="space-y-3 text-lg">
-          <h1 className="text-3xl font-bold">{player.name}</h1>
+        {/* Title and Meta Information */}
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold">{data.name}</h1>{" "}
+          {/* Display player name */}
+          <div className="flex flex-col sm:flex-row sm:items-center text-sm">
+            <span>
+              Current Club:{" "}
+              <span className="font-medium">{data.currentclub}</span>
+            </span>
+            <span className="mt-2 sm:mt-0 sm:ml-4">
+              Country: <span className="font-medium">{data.country}</span>
+            </span>
+          </div>
+        </div>
+
+        {/* Player Stats Section */}
+        <div className="space-y-2 text-neutral-300">
           <p>
-            <span className="font-semibold text-neutral-400">
-              Current Club:
-            </span>{" "}
-            {player.currentclub}
+            <span className="font-semibold">Age:</span> {data.age} years
           </p>
           <p>
-            <span className="font-semibold text-neutral-400">Country:</span>{" "}
-            {player.country}
+            <span className="font-semibold">Total Goals:</span>{" "}
+            {data.totalgoals}
           </p>
           <p>
-            <span className="font-semibold text-neutral-400">
-              Date of Birth:
-            </span>{" "}
-            {player.dateofbirth}
+            <span className="font-semibold">Total Assists:</span>{" "}
+            {data.totalassists}
           </p>
-          <p>
-            <span className="font-semibold text-neutral-400">Age:</span>{" "}
-            {player.age} years old
-          </p>
+        </div>
+
+        {/* Footer Section */}
+        <div className="text-center text-gray-500 text-sm">
+          <p>Joined on {new Date(data.createdAt).toLocaleDateString()}</p>
         </div>
       </div>
     </main>
