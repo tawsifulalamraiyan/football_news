@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       console.log("Validation errors:", parsed.error.flatten().fieldErrors);
       return NextResponse.json(
         { error: parsed.error.flatten().fieldErrors },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     console.error("Error creating player data:", error);
     return NextResponse.json(
       { error: error.message || "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

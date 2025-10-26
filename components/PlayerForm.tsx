@@ -53,7 +53,7 @@ const PlayerForm = ({ player }: PlayerFormProps) => {
         setMessage(
           player
             ? "✅ Player updated successfully!"
-            : "✅ Player created successfully!"
+            : "✅ Player created successfully!",
         );
         setName("");
         setImagepath("");

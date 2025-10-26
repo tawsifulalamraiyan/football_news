@@ -10,11 +10,7 @@ const layout = async ({ children }: any) => {
   if (session) {
     redirect("/home");
   }
-  return (
-    <>
-      <main>{children}</main>
-    </>
-  );
+  return <main>{children}</main>;
 };
 
 export default layout;

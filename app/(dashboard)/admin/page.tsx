@@ -28,11 +28,6 @@ const Page = async () => {
     );
   }
 
-  const posts = await prisma.news.findMany({
-    where: { userId: session.user.id },
-    orderBy: { createdAt: "desc" },
-  });
-
   return (
     <main className="min-h-screen py-10 max-w-3xl mx-auto space-y-8 px-6">
       <div className="text-center space-y-4">

@@ -1,15 +1,8 @@
-// components/PlayerSearch.tsx (Client Component)
-
+// PlayerSearch.tsx
 "use client"; // To indicate that this is a client-side component
 
 import { useState } from "react";
-
-interface Player {
-  id: number;
-  name: string;
-  currentclub: string;
-  country: string;
-}
+import { Player } from "../types"; // Import the Player type from the shared types file
 
 interface PlayerSearchProps {
   players: Player[];
@@ -19,13 +12,12 @@ interface PlayerSearchProps {
 const PlayerSearch = ({ players, setFilteredPlayers }: PlayerSearchProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Filter players based on search term (name, country, or current club)
   const handleSearch = (searchTerm: string) => {
     const filtered = players.filter(
       (player) =>
         player.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         player.country.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        player.currentclub.toLowerCase().includes(searchTerm.toLowerCase())
+        player.currentclub.toLowerCase().includes(searchTerm.toLowerCase()),
     );
     setFilteredPlayers(filtered);
   };

@@ -1,8 +1,8 @@
-import { SignOut } from "@/app/(auth)/auth-actions";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import Image from "next/image";
-import bg from "@/public/background.jpg";
+import Image from "next/image"; // External import first
+import { SignOut } from "@/app/(auth)/auth-actions"; // Internal import
+import { Button } from "@/components/ui/button"; // Internal import
+import { Card } from "@/components/ui/card"; // Internal import
+import bg from "@/public/background.jpg"; // Static asset import (image)
 
 const Page = async () => {
   return (

@@ -1,25 +1,16 @@
-"use client";
-
+// PlayerList.tsx
 import { useState } from "react";
 import Image from "next/image";
 import PlayerSearch from "./PlayerSearch";
 import Link from "next/link";
-
-interface Player {
-  id: number;
-  name: string;
-  imagepath: string;
-  currentclub: string;
-  age: number;
-  country: string;
-}
+import { Player } from "../types"; // Import from the shared types file
 
 interface PlayerListProps {
   players: Player[];
 }
 
 const PlayerList = ({ players }: PlayerListProps) => {
-  const [filteredPlayers, setFilteredPlayers] = useState(players);
+  const [filteredPlayers, setFilteredPlayers] = useState<Player[]>(players);
 
   return (
     <div>
@@ -52,7 +43,6 @@ const PlayerList = ({ players }: PlayerListProps) => {
                 <span>{player.country}</span>
               </div>
 
-              {/* Update Button */}
               <Link
                 href={`/players/${player.id}`}
                 className="mt-4 w-full bg-neutral-900 text-white py-2 rounded-full hover:bg-neutral-900/80 text-center block"

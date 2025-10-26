@@ -10,7 +10,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     { className, type, leftIcon, rightIcon, wrapperClassName, ...props },
-    ref
+    ref,
   ) => {
     return (
       <div
@@ -19,7 +19,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           "focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50",
           "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
           "disabled:opacity-50 disabled:cursor-not-allowed",
-          wrapperClassName
+          wrapperClassName,
         )}
       >
         {leftIcon && (
@@ -32,7 +32,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className={cn(
             "w-full bg-transparent outline-none border-none text-base md:text-sm placeholder:text-muted-foreground",
             "file:text-foreground file:bg-transparent file:border-0 file:font-medium file:h-7 file:text-sm",
-            className
+            className,
           )}
           {...props}
         />
@@ -42,7 +42,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = "Input";
