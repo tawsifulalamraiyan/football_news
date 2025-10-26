@@ -1,41 +1,77 @@
-// PlayerSearch.tsx
-"use client"; // To indicate that this is a client-side component
+"use client";
 
+import Link from "next/link";
 import { useState } from "react";
-import { Player } from "../types"; // Import the Player type from the shared types file
 
-interface PlayerSearchProps {
-  players: Player[];
-  setFilteredPlayers: React.Dispatch<React.SetStateAction<Player[]>>;
+// PlayerList Component for filtering players and displaying them
+interface Player {
+  id: number;
+  name: string;
+  imagepath: string;
+  totalgoals: number;
+  totalassists: number;
+  currentclub: string;
+  age: number;
+  country: string;
 }
 
-const PlayerSearch = ({ players, setFilteredPlayers }: PlayerSearchProps) => {
-  const [searchTerm, setSearchTerm] = useState("");
+interface PlayerListProps {
+  players: Player[];
+}
 
-  const handleSearch = (searchTerm: string) => {
-    const filtered = players.filter(
-      (player) =>
-        player.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        player.country.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        player.currentclub.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
-    setFilteredPlayers(filtered);
-  };
+const PlayerList: React.FC<PlayerListProps> = ({ players }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Filter players based on search query (client-side filtering)
+  const filteredPlayers = players.filter((player) =>
+    player.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <div className="mb-6">
-      <input
-        type="text"
-        placeholder="Search by name, country, or club..."
-        value={searchTerm}
-        onChange={(e) => {
-          setSearchTerm(e.target.value);
-          handleSearch(e.target.value);
-        }}
-        className="w-full sm:w-80 px-4 py-2 border rounded-lg bg-neutral-800 text-white placeholder:text-neutral-400"
-      />
+    <div>
+      {/* Search Bar */}
+      <div className="mb-6">
+        <input
+          type="text"
+          placeholder="Search Players..."
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)} // Update search query on input change
+        />
+      </div>
+
+      {/* Render filtered players */}
+      {filteredPlayers.length > 0 ? (
+        filteredPlayers.map((item) => (
+          <div
+            key={item.id}
+            className="player-item mb-6 p-6 border rounded shadow-md"
+          >
+            {/* Player Image */}
+            <div className="mb-4">
+              <img
+                src={item.imagepath}
+                alt={item.name}
+                className="w-32 h-32 object-cover rounded-full mx-auto"
+              />
+            </div>
+
+            {/* Player Details */}
+            <h2 className="text-xl font-semibold text-center">{item.name}</h2>
+            <p className="text-sm text-center text-gray-600">
+              {item.currentclub}
+            </p>
+            <div className="mt-2 text-center text-gray-700">
+              <p>Country: {item.country}</p>
+            </div>
+            <Link href={`/players/${item.id}`}>Details</Link>
+          </div>
+        ))
+      ) : (
+        <p className="text-center text-gray-600">No players found</p>
+      )}
     </div>
   );
 };
 
-export default PlayerSearch;
+export default PlayerList;

@@ -1,7 +1,5 @@
-// app/(dashboard)/players/page.tsx (Server Component)
-
 import { prisma } from "@/lib/prisma";
-import PlayerList from "@/components/PlayerList"; // Import the client-side component for player listing
+import PlayerList from "@/components/PlayerSearch"; // Import the Client Component
 
 const PlayerPage = async () => {
   // Fetch players from Prisma
@@ -11,7 +9,7 @@ const PlayerPage = async () => {
     <main className="p-6 max-w-6xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Top Football Players</h1>
 
-      {/* Pass the fetched players to the client-side component */}
+      {/* Pass the players data to the PlayerList component */}
       <PlayerList players={players} />
     </main>
   );
